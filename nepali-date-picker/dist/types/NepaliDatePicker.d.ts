@@ -1,0 +1,34 @@
+import { DatePickerOptions, NepaliDateObject } from './types';
+export declare class NepaliDatePicker {
+    private element;
+    private options;
+    private selectedDate;
+    private currentViewDate;
+    private isOpen;
+    private pickerElement;
+    private static readonly DEFAULT_OPTIONS;
+    constructor(selector: string | HTMLElement, options?: DatePickerOptions);
+    private init;
+    private formatSelectedDate;
+    private toggle;
+    private open;
+    private close;
+    private handleOutsideClick;
+    private renderDatePicker;
+    private generatePickerHTML;
+    private generateYearOptions;
+    private convertToNepaliNumeral;
+    private isDateDisabled;
+    private addPickerEventListeners;
+    private goToPrevMonth;
+    private goToNextMonth;
+    private handleMonthChange;
+    private handleYearChange;
+    private handleDayClick;
+    private goToToday;
+    private updateDatePicker;
+    getDate(): NepaliDateObject;
+    setDate(date: NepaliDateObject): void;
+    setOptions(options: Partial<DatePickerOptions>): void;
+    destroy(): void;
+}

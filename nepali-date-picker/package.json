@@ -1,0 +1,59 @@
+{
+  "name": "nepali-date-picker",
+  "version": "1.0.0",
+  "description": "A customizable Nepali (Bikram Sambat) date picker",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "nepali",
+    "date-picker",
+    "bikram-sambat",
+    "bs",
+    "calendar",
+    "nepal"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.1",
+    "@types/jest": "^29.5.2",
+    "jest": "^29.5.0",
+    "postcss": "^8.5.3",
+    "postcss-import": "^16.1.0",
+    "postcss-preset-env": "^10.1.6",
+    "rollup": "^3.25.1",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^5.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adishdahal777/nepali-date-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adishdahal777/nepali-date-picker/issues"
+  },
+  "homepage": "https://github.com/adishdahal777/nepali-date-picker#readme",
+  "dependencies": {
+    "tslib": "^2.8.1"
+  }
+}
