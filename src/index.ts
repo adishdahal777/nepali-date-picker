@@ -1,4 +1,7 @@
-// Main entry point for the package
+// src/index.ts
+import './styles.css';
 export { NepaliDatePicker } from './NepaliDatePicker';
 export { NepaliDate } from './NepaliDate';
 export type { DatePickerOptions } from './types';
+
+// Import CSS

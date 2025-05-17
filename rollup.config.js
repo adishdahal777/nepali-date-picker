@@ -1,4 +1,3 @@
-
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
@@ -6,9 +5,9 @@ import { babel } from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
 import dts from 'rollup-plugin-dts';
-import { readFileSync } from 'fs';
 
-// Use JSON.parse instead of require for ES modules
+// Use JSON.parse for ES modules
+import { readFileSync } from 'fs';
 const packageJson = JSON.parse(
   readFileSync(new URL('./package.json', import.meta.url), 'utf8')
 );
@@ -44,7 +43,8 @@ export default [
         exclude: 'node_modules/**',
       }),
       postcss({
-        modules: true,
+        modules: false,
+        extract: 'styles.css',
         minimize: true,
       }),
       terser(),
@@ -54,6 +54,18 @@ export default [
   {
     input: 'dist/types/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
-    plugins: [dts()],
+    plugins: [
+      // Add a plugin to handle CSS imports in .d.ts files
+      {
+        name: 'ignore-css-imports',
+        resolveId(source) {
+          if (source.endsWith('.css')) {
+            return { id: 'empty-css-module', external: true };
+          }
+          return null;
+        }
+      },
+      dts(),
+    ],
   },
 ];
