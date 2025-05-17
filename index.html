@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nepali Date Picker Implementation</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@rato-guras-technology/nepali-date-picker/dist/styles.css"
+    />
+
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .date-picker-container {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        color: #4f46e5;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        margin-top: 0;
+        color: #111827;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      input {
+        width: 100%;
+        max-width: 300px;
+        padding: 8px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+
+      .result {
+        margin-top: 16px;
+        padding: 12px;
+        background-color: #f9fafb;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      .controls {
+        margin-top: 16px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        padding: 8px 16px;
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      button:hover {
+        background-color: #4338ca;
+      }
+
+      .theme-btn {
+        background-color: #e5e7eb;
+        color: #1f2937;
+      }
+
+      .theme-btn.active {
+        background-color: #4f46e5;
+        color: white;
+      }
+
+      code {
+        background-color: #f3f4f6;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+
+      pre {
+        background-color: #f3f4f6;
+        padding: 16px;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nepali Date Picker Implementation</h1>
+
+    <div class="container">
+      <!-- Basic Example -->
+      <div class="date-picker-container">
+        <h2>Basic Usage</h2>
+        <label for="nepali-date">Select Nepali Date:</label>
+        <input
+          id="nepali-date"
+          type="text"
+          readonly
+          placeholder="Click to select date"
+        />
+        <div class="result" id="date-result">No date selected</div>
+      </div>
+
+      <!-- Customized Example -->
+      <div class="date-picker-container">
+        <h2>Customized Date Picker</h2>
+        <div class="controls">
+          <button id="light-theme-btn" class="theme-btn active">
+            Light Theme
+          </button>
+          <button id="dark-theme-btn" class="theme-btn">Dark Theme</button>
+          <button id="nepali-lang-btn" class="theme-btn active">Nepali</button>
+          <button id="english-lang-btn" class="theme-btn">English</button>
+        </div>
+
+        <div class="controls">
+          <button
+            id="indigo-color-btn"
+            class="theme-btn active"
+            style="background-color: #4f46e5; color: white"
+          >
+            Indigo
+          </button>
+          <button
+            id="emerald-color-btn"
+            class="theme-btn"
+            style="background-color: #10b981; color: white"
+          >
+            Emerald
+          </button>
+          <button
+            id="rose-color-btn"
+            class="theme-btn"
+            style="background-color: #f43f5e; color: white"
+          >
+            Rose
+          </button>
+        </div>
+
+        <div style="margin-top: 16px">
+          <label for="custom-nepali-date">Select Nepali Date:</label>
+          <input
+            id="custom-nepali-date"
+            type="text"
+            readonly
+            placeholder="Click to select date"
+          />
+          <div class="result" id="custom-date-result">No date selected</div>
+        </div>
+      </div>
+
+      <!-- Form Integration Example -->
+      <div class="date-picker-container">
+        <h2>Form Integration</h2>
+        <form id="date-form">
+          <div>
+            <label for="form-nepali-date">Event Date (BS):</label>
+            <input
+              id="form-nepali-date"
+              type="text"
+              readonly
+              placeholder="Click to select date"
+            />
+            <input
+              type="hidden"
+              id="form-nepali-date-value"
+              name="nepaliDate"
+            />
+          </div>
+
+          <div style="margin-top: 16px">
+            <label for="event-name">Event Name:</label>
+            <input
+              type="text"
+              id="event-name"
+              name="eventName"
+              placeholder="Enter event name"
+            />
+          </div>
+
+          <div style="margin-top: 16px">
+            <button type="submit">Submit Form</button>
+          </div>
+        </form>
+
+        <div class="result" id="form-result" style="margin-top: 16px">
+          Form not submitted yet
+        </div>
+      </div>
+
+      <!-- Multiple Date Pickers -->
+      <div class="date-picker-container">
+        <h2>Multiple Date Pickers</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+          <div>
+            <label for="start-date">Start Date:</label>
+            <input
+              id="start-date"
+              type="text"
+              readonly
+              placeholder="Select start date"
+            />
+          </div>
+          <div>
+            <label for="end-date">End Date:</label>
+            <input
+              id="end-date"
+              type="text"
+              readonly
+              placeholder="Select end date"
+            />
+          </div>
+        </div>
+        <div class="result" id="date-range-result">No date range selected</div>
+      </div>
+    </div>
+
+    <!-- Include the Nepali Date Picker JavaScript -->
+    <!-- Option 1: From CDN (unpkg) -->
+    <script src="https://unpkg.com/@rato-guras-technology/nepali-date-picker/dist/index.umd.js"></script>
+
+    <!-- Option 2: If you're using npm and have the files locally -->
+    <!-- <script src="./node_modules/@rato-guras-technology/nepali-date-picker/dist/index.umd.js"></script> -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Extract NepaliDatePicker and NepaliDate from the UMD bundle
+        // Note: The actual object structure might be different based on how you exported your package
+        // You might need to adjust this based on your actual package structure
+        const NepaliDatePicker =
+          window.NepaliDatePicker?.NepaliDatePicker || window.NepaliDatePicker;
+        const NepaliDate =
+          window.NepaliDatePicker?.NepaliDate || window.NepaliDate;
+
+        // Basic Example
+        const basicDatePicker = new NepaliDatePicker("#nepali-date", {
+          onDateSelect: function (date) {
+            document.getElementById("date-result").textContent = `Selected: ${
+              date.year
+            }-${date.month + 1}-${date.day}`;
+          },
+        });
+
+        // Customized Example
+        const customDatePicker = new NepaliDatePicker("#custom-nepali-date", {
+          theme: "light",
+          language: "ne",
+          primaryColor: "#4F46E5",
+          onDateSelect: function (date) {
+            document.getElementById(
+              "custom-date-result"
+            ).textContent = `Selected: ${date.year}-${date.month + 1}-${
+              date.day
+            }`;
+          },
+        });
+
+        // Theme toggle buttons
+        document
+          .getElementById("light-theme-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ theme: "light" });
+            document.getElementById("light-theme-btn").classList.add("active");
+            document
+              .getElementById("dark-theme-btn")
+              .classList.remove("active");
+          });
+
+        document
+          .getElementById("dark-theme-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ theme: "dark" });
+            document.getElementById("dark-theme-btn").classList.add("active");
+            document
+              .getElementById("light-theme-btn")
+              .classList.remove("active");
+          });
+
+        // Language toggle buttons
+        document
+          .getElementById("nepali-lang-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ language: "ne" });
+            document.getElementById("nepali-lang-btn").classList.add("active");
+            document
+              .getElementById("english-lang-btn")
+              .classList.remove("active");
+          });
+
+        document
+          .getElementById("english-lang-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ language: "en" });
+            document.getElementById("english-lang-btn").classList.add("active");
+            document
+              .getElementById("nepali-lang-btn")
+              .classList.remove("active");
+          });
+
+        // Color toggle buttons
+        document
+          .getElementById("indigo-color-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ primaryColor: "#4F46E5" });
+            setActiveColorButton("indigo-color-btn");
+          });
+
+        document
+          .getElementById("emerald-color-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ primaryColor: "#10B981" });
+            setActiveColorButton("emerald-color-btn");
+          });
+
+        document
+          .getElementById("rose-color-btn")
+          .addEventListener("click", function () {
+            customDatePicker.setOptions({ primaryColor: "#F43F5E" });
+            setActiveColorButton("rose-color-btn");
+          });
+
+        function setActiveColorButton(activeId) {
+          ["indigo-color-btn", "emerald-color-btn", "rose-color-btn"].forEach(
+            (id) => {
+              if (id === activeId) {
+                document.getElementById(id).classList.add("active");
+              } else {
+                document.getElementById(id).classList.remove("active");
+              }
+            }
+          );
+        }
+
+        // Form Integration Example
+        const formDatePicker = new NepaliDatePicker("#form-nepali-date", {
+          onDateSelect: function (date) {
+            // Update the hidden input with the selected date value
+            document.getElementById("form-nepali-date-value").value = `${
+              date.year
+            }-${date.month + 1}-${date.day}`;
+          },
+        });
+
+        // Form submission handler
+        document
+          .getElementById("date-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const formValues = Object.fromEntries(formData.entries());
+
+            document.getElementById("form-result").innerHTML =
+              `Form submitted with values:<br>` +
+              `Event Name: ${formValues.eventName}<br>` +
+              `Nepali Date: ${formValues.nepaliDate}`;
+          });
+
+        // Multiple Date Pickers Example
+        const startDatePicker = new NepaliDatePicker("#start-date", {
+          onDateSelect: function (date) {
+            updateDateRange();
+          },
+        });
+
+        const endDatePicker = new NepaliDatePicker("#end-date", {
+          onDateSelect: function (date) {
+            updateDateRange();
+          },
+        });
+
+        function updateDateRange() {
+          const startDate = startDatePicker.getDate();
+          const endDate = endDatePicker.getDate();
+
+          if (startDate && endDate) {
+            document.getElementById("date-range-result").textContent =
+              `Selected Range: ${startDate.year}-${startDate.month + 1}-${
+                startDate.day
+              } to ` + `${endDate.year}-${endDate.month + 1}-${endDate.day}`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
