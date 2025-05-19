@@ -1,7 +1,4 @@
-// src/index.ts
-import './styles.css';
-export { NepaliDatePicker } from './NepaliDatePicker';
-export { NepaliDate } from './NepaliDate';
-export type { DatePickerOptions } from './types';
-
-// Import CSS
+import './styles/styles.css';
+export { NepaliDatePicker } from './components/NepaliDatePicker';
+export { NepaliDate } from './utils/NepaliDate';
+export type { DatePickerOptions, NepaliDateObject, GregorianDateObject } from './types/types';

@@ -1,4 +1,4 @@
-import './styles.css';
-export { NepaliDatePicker } from './NepaliDatePicker';
-export { NepaliDate } from './NepaliDate';
-export type { DatePickerOptions } from './types';
+import './styles/styles.css';
+export { NepaliDatePicker } from './components/NepaliDatePicker';
+export { NepaliDate } from './utils/NepaliDate';
+export type { DatePickerOptions, NepaliDateObject, GregorianDateObject } from './types/types';

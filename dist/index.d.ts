@@ -1,18 +1,33 @@
+interface GregorianDateObject {
+    year: number;
+    month: number;
+    day: number;
+}
 interface NepaliDateObject {
     year: number;
     month: number;
     day: number;
 }
 interface DatePickerOptions {
-    theme?: 'light' | 'dark' | 'auto';
+    theme?: "light" | "dark";
     primaryColor?: string;
-    language?: 'ne' | 'en';
+    language?: "ne" | "en";
     showTodayButton?: boolean;
     closeOnSelect?: boolean;
     disableFutureDates?: boolean;
     disablePastDates?: boolean;
+    dateFormat?: string;
+    unicodeDate?: boolean;
+    readOnly?: boolean;
+    initialDate?: NepaliDateObject;
     minDate?: NepaliDateObject;
     maxDate?: NepaliDateObject;
+    disabledDates?: NepaliDateObject[];
+    disabledDays?: number[];
+    maxDaysCount?: number;
+    triggerButtonText?: string;
+    showTriggerButton?: boolean;
+    onChange?: (date: NepaliDateObject) => void;
     onDateSelect?: (date: NepaliDateObject) => void;
     onMonthChange?: (year: number, month: number) => void;
     onOpen?: () => void;
@@ -26,30 +41,40 @@ declare class NepaliDatePicker {
     private currentViewDate;
     private isOpen;
     private pickerElement;
+    private inputElement;
+    private tempSelectedDate;
     private static readonly DEFAULT_OPTIONS;
     constructor(selector: string | HTMLElement, options?: DatePickerOptions);
     private init;
+    private applyCustomColor;
+    private hexToRgba;
+    private adjustColor;
     private formatSelectedDate;
+    private createPickerElement;
+    private updatePickerContent;
+    private generateMonthYearOptions;
+    private generateDaysGrid;
+    private convertToNepaliNumeral;
+    private isDateDisabled;
+    private positionPicker;
+    private addPickerEventListeners;
+    private enableDateEditing;
+    private handleDateEdit;
+    private goToPrevMonth;
+    private goToNextMonth;
+    private setMonth;
+    private setYear;
+    private handleDayClick;
+    private goToToday;
     private toggle;
     private open;
     private close;
     private handleOutsideClick;
-    private renderDatePicker;
-    private generatePickerHTML;
-    private generateYearOptions;
-    private convertToNepaliNumeral;
-    private isDateDisabled;
-    private addPickerEventListeners;
-    private goToPrevMonth;
-    private goToNextMonth;
-    private handleMonthChange;
-    private handleYearChange;
-    private handleDayClick;
-    private goToToday;
-    private updateDatePicker;
     getDate(): NepaliDateObject;
     setDate(date: NepaliDateObject): void;
     setOptions(options: Partial<DatePickerOptions>): void;
+    show(): void;
+    hide(): void;
     destroy(): void;
 }
 
@@ -59,7 +84,10 @@ declare class NepaliDate {
     private _day;
     private static readonly MIN_YEAR;
     private static readonly MAX_YEAR;
+    private static readonly REF_NEPALI_DATE;
+    private static readonly REF_GREGORIAN_DATE;
     constructor(year: number, month: number, day: number);
+    private static getValidYear;
     static fromGregorian(date: Date): NepaliDate;
     static today(): NepaliDate;
     toGregorian(): Date;
@@ -77,6 +105,7 @@ declare class NepaliDate {
     addDays(days: number): NepaliDate;
     addMonths(months: number): NepaliDate;
     addYears(years: number): NepaliDate;
+    private hexToRgba;
 }
 
-export { DatePickerOptions, NepaliDate, NepaliDatePicker };
+export { DatePickerOptions, GregorianDateObject, NepaliDate, NepaliDateObject, NepaliDatePicker };
