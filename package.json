@@ -1,6 +1,6 @@
 {
   "name": "@rato-guras-technology/nepali-date-picker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A customizable Nepali (Bikram Sambat) date picker",
   "type": "module",
   "main": "dist/index.js",
