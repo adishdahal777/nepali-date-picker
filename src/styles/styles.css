@@ -1,0 +1,406 @@
+.nepali-date-picker-container {
+  position: relative;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.nepali-date-picker-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #1a202c;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.nepali-date-picker-input:hover {
+  border-color: #cbd5e0;
+}
+
+.nepali-date-picker-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.nepali-date-picker {
+  position: absolute;
+  z-index: 100;
+  width: 320px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.nepali-date-picker.open {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.nepali-date-picker.dark {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+.date-display {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nepali-date-picker.dark .date-display {
+  border-bottom-color: #374151;
+}
+
+.month-year-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  background-color: #4f46e5;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.nepali-date-picker.dark .month-year-header {
+  background-color: #6366f1;
+}
+
+.selected-date {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.nepali-date-picker.dark .selected-date {
+  color: #f9fafb;
+}
+
+.edit-icon {
+  width: 20px;
+  height: 20px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.nepali-date-picker.dark .edit-icon {
+  color: #9ca3af;
+}
+
+.picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.nepali-date-picker.dark .picker-header {
+  border-bottom-color: #374151;
+}
+
+.month-year-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.month-year-display {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nepali-date-picker.dark .month-year-display {
+  color: #d1d5db;
+}
+
+.month-year-display:hover {
+  background-color: #f3f4f6;
+}
+
+.nepali-date-picker.dark .month-year-display:hover {
+  background-color: #374151;
+}
+
+.month-year-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+
+.nepali-date-picker.dark .month-year-dropdown {
+  background-color: #1f2937;
+}
+
+.month-year-dropdown.open {
+  display: block;
+}
+
+.month-year-option {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.month-year-option:hover {
+  background-color: #f3f4f6;
+}
+
+.nepali-date-picker.dark .month-year-option:hover {
+  background-color: #374151;
+}
+
+.month-year-option.selected {
+  background-color: #f3f4f6;
+  font-weight: 500;
+}
+
+.nepali-date-picker.dark .month-year-option.selected {
+  background-color: #374151;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #4b5563;
+}
+
+.nepali-date-picker.dark .nav-button {
+  color: #d1d5db;
+}
+
+.nav-button:hover {
+  background-color: #f3f4f6;
+}
+
+.nepali-date-picker.dark .nav-button:hover {
+  background-color: #374151;
+}
+
+.nav-button:disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.nepali-date-picker.dark .nav-button:disabled {
+  color: #6b7280;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  padding: 8px 0;
+}
+
+.weekday {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.nepali-date-picker.dark .weekday {
+  color: #9ca3af;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 8px 16px 16px;
+  gap: 8px;
+}
+
+.day {
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #1f2937;
+  transition: all 0.2s ease;
+}
+
+.nepali-date-picker.dark .day {
+  color: #e5e7eb;
+}
+
+.day:not(.empty):not(.disabled):hover {
+  background-color: #f3f4f6;
+}
+
+.nepali-date-picker.dark .day:not(.empty):not(.disabled):hover {
+  background-color: #374151;
+}
+
+.day.today {
+  border: 1px solid #4f46e5;
+  color: #4f46e5;
+}
+
+.nepali-date-picker.dark .day.today {
+  border-color: #818cf8;
+  color: #818cf8;
+}
+
+.day.selected {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.nepali-date-picker.dark .day.selected {
+  background-color: #6366f1;
+}
+
+.day.highlighted {
+  background-color: rgba(79, 70, 229, 0.1);
+}
+
+.nepali-date-picker.dark .day.highlighted {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.day.disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.nepali-date-picker.dark .day.disabled {
+  color: #4b5563;
+}
+
+.day.empty {
+  cursor: default;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.nepali-date-picker.dark .footer {
+  border-top-color: #374151;
+}
+
+.today-button {
+  background-color: transparent;
+  border: 1px solid #4f46e5;
+  color: #4f46e5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.today-button:hover {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.nepali-date-picker.dark .today-button {
+  border-color: #818cf8;
+  color: #818cf8;
+}
+
+.nepali-date-picker.dark .today-button:hover {
+  background-color: #818cf8;
+  color: #1f2937;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.cancel-button:hover {
+  background-color: #f3f4f6;
+}
+
+.nepali-date-picker.dark .cancel-button {
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+.nepali-date-picker.dark .cancel-button:hover {
+  background-color: #374151;
+}
+
+.ok-button {
+  background-color: #4f46e5;
+  border: 1px solid #4f46e5;
+  color: #fff;
+}
+
+.ok-button:hover {
+  background-color: #4338ca;
+}
+
+.nepali-date-picker.dark .ok-button {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.nepali-date-picker.dark .ok-button:hover {
+  background-color: #4f46e5;
+}
