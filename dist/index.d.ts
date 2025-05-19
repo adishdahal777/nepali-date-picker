@@ -22,7 +22,7 @@ interface DatePickerOptions {
     initialDate?: NepaliDateObject;
     minDate?: NepaliDateObject;
     maxDate?: NepaliDateObject;
-    disabledDates?: NepaliDateObject[];
+    disabledDates?: NepaliDateObject[] | string[];
     disabledDays?: number[];
     maxDaysCount?: number;
     triggerButtonText?: string;
@@ -48,6 +48,7 @@ declare class NepaliDatePicker {
     private init;
     private applyCustomColor;
     private hexToRgba;
+    private parseDateString;
     private adjustColor;
     private formatSelectedDate;
     private createPickerElement;

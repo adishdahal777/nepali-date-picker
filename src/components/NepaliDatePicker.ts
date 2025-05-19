@@ -51,22 +51,18 @@ export class NepaliDatePicker {
     this.options = { ...this.options, ...options }
 
     // Set initial dates
-    let initialDate;
+    let initialDate
     if (options.initialDate) {
       // Use provided initial date, ensuring it's within valid range
-      initialDate = new NepaliDate(
-        options.initialDate.year,
-        options.initialDate.month,
-        options.initialDate.day
-      );
+      initialDate = new NepaliDate(options.initialDate.year, options.initialDate.month, options.initialDate.day)
     } else {
       // Use today's date, which will be adjusted to a valid year if needed
-      initialDate = NepaliDate.today();
+      initialDate = NepaliDate.today()
     }
 
-    this.selectedDate = initialDate;
-    this.currentViewDate = this.selectedDate;
-    this.tempSelectedDate = null;
+    this.selectedDate = initialDate
+    this.currentViewDate = this.selectedDate
+    this.tempSelectedDate = null
 
     // Initialize the date picker
     this.init()
@@ -105,8 +101,8 @@ export class NepaliDatePicker {
     document.addEventListener("click", this.handleOutsideClick.bind(this))
 
     // Always apply the color (either default or custom)
-    const colorToApply = this.options.primaryColor || NepaliDatePicker.DEFAULT_OPTIONS.primaryColor;
-    this.applyCustomColor(colorToApply || "#4F46E5");
+    const colorToApply = this.options.primaryColor || NepaliDatePicker.DEFAULT_OPTIONS.primaryColor
+    this.applyCustomColor(colorToApply || "#4F46E5")
 
     // Create picker element
     this.createPickerElement()
@@ -115,7 +111,7 @@ export class NepaliDatePicker {
   // Apply custom primary color
   private applyCustomColor(color: string): void {
     // Ensure color is a valid string
-    const safeColor = color || NepaliDatePicker.DEFAULT_OPTIONS.primaryColor || "#4F46E5";
+    const safeColor = color || NepaliDatePicker.DEFAULT_OPTIONS.primaryColor || "#4F46E5"
 
     const style = document.createElement("style")
     style.textContent = `
@@ -324,7 +320,7 @@ export class NepaliDatePicker {
         font-size: 16px;
       }
       .weekend {
-        color: #e53e3e;
+        /* Remove the red color for weekends */
       }
       .other-month {
         color: #aaa;
@@ -346,6 +342,44 @@ export class NepaliDatePicker {
     const g = Number.parseInt(hex.slice(3, 5), 16)
     const b = Number.parseInt(hex.slice(5, 7), 16)
     return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }
+
+  // Add this helper method to parse date strings after the hexToRgba method
+  private parseDateString(dateString: string): NepaliDateObject | null {
+    // Check if the string matches the YYYY-MM-DD format
+    const dateRegex = /^(\d{4})-(\d{1,2})-(\d{1,2})$/
+    const match = dateString.match(dateRegex)
+
+    if (!match) {
+      console.warn(`Invalid date format: ${dateString}. Expected format: YYYY-MM-DD`)
+      return null
+    }
+
+    const year = Number.parseInt(match[1], 10)
+    const month = Number.parseInt(match[2], 10) - 1 // Convert to 0-indexed month
+    const day = Number.parseInt(match[3], 10)
+
+    // Validate the date
+    if (month < 0 || month > 11) {
+      console.warn(`Invalid month in date: ${dateString}. Month should be between 1 and 12`)
+      return null
+    }
+
+    // Check if the day is valid for the given month and year
+    try {
+      const daysInMonth = NepaliDate.getDaysInMonth(year, month)
+      if (day < 1 || day > daysInMonth) {
+        console.warn(
+          `Invalid day in date: ${dateString}. Day should be between 1 and ${daysInMonth} for month ${month + 1}`,
+        )
+        return null
+      }
+    } catch (e) {
+      console.warn(`Error validating date: ${dateString}. ${e}`)
+      return null
+    }
+
+    return { year, month, day }
   }
 
   // Helper to adjust color brightness
@@ -437,9 +471,7 @@ export class NepaliDatePicker {
         ${monthNames[this.currentViewDate.month]}
       </div>
       <div class="year-range-notice">
-        ${this.options.language === "ne" ?
-        `सालहरू: २०७० - २०९०` :
-        `Years: 2070 - 2090`}
+        ${this.options.language === "ne" ? `सालहरू: २०७० - २०९०` : `Years: 2070 - 2090`}
       </div>
       <div class="picker-header">
         <button class="nav-button prev-month">
@@ -457,7 +489,7 @@ export class NepaliDatePicker {
         </button>
       </div>
       <div class="weekdays">
-        ${dayNames.map((name, index) => `<div class="weekday ${index === 0 || index === 6 ? "weekend" : ""}">${name}</div>`).join("")}
+        ${dayNames.map((name) => `<div class="weekday">${name}</div>`).join("")}
       </div>
       <div class="days">
         ${this.generateDaysGrid()}
@@ -604,9 +636,14 @@ export class NepaliDatePicker {
       .join("")
   }
 
-  // Check if a date should be disabled
+  // Update the isDateDisabled method to handle string format dates
   private isDateDisabled(year: number, month: number, day: number): boolean {
-    if (!this.options.disableFutureDates && !this.options.disablePastDates) {
+    if (
+      !this.options.disableFutureDates &&
+      !this.options.disablePastDates &&
+      !this.options.disabledDates &&
+      !this.options.disabledDays
+    ) {
       return false
     }
 
@@ -615,12 +652,43 @@ export class NepaliDatePicker {
     const gregorianDate = date.toGregorian()
     const gregorianToday = today.toGregorian()
 
+    // Check for future dates
     if (this.options.disableFutureDates && gregorianDate > gregorianToday) {
       return true
     }
 
+    // Check for past dates
     if (this.options.disablePastDates && gregorianDate < gregorianToday) {
       return true
+    }
+
+    // Check for specific disabled dates
+    if (this.options.disabledDates && this.options.disabledDates.length > 0) {
+      // Check if disabledDates contains string dates
+      if (typeof this.options.disabledDates[0] === "string") {
+        // Handle string format dates
+        for (const dateString of this.options.disabledDates as string[]) {
+          const parsedDate = this.parseDateString(dateString)
+          if (parsedDate && parsedDate.year === year && parsedDate.month === month && parsedDate.day === day) {
+            return true
+          }
+        }
+      } else {
+        // Handle object format dates
+        for (const disabledDate of this.options.disabledDates as NepaliDateObject[]) {
+          if (disabledDate.year === year && disabledDate.month === month && disabledDate.day === day) {
+            return true
+          }
+        }
+      }
+    }
+
+    // Check for disabled days of week
+    if (this.options.disabledDays && this.options.disabledDays.length > 0) {
+      const dayOfWeek = date.toGregorian().getDay()
+      if (this.options.disabledDays.includes(dayOfWeek)) {
+        return true
+      }
     }
 
     return false
@@ -986,8 +1054,8 @@ export class NepaliDatePicker {
 
     // Apply color if it changed or was explicitly set
     if (options.primaryColor !== undefined && options.primaryColor !== oldPrimaryColor) {
-      const colorToApply = this.options.primaryColor || NepaliDatePicker.DEFAULT_OPTIONS.primaryColor;
-      this.applyCustomColor(colorToApply || "#4F46E5");
+      const colorToApply = this.options.primaryColor || NepaliDatePicker.DEFAULT_OPTIONS.primaryColor
+      this.applyCustomColor(colorToApply || "#4F46E5")
     }
 
     // Update input value if format or language changed

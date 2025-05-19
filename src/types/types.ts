@@ -33,7 +33,7 @@ export interface DatePickerOptions {
   initialDate?: NepaliDateObject
   minDate?: NepaliDateObject
   maxDate?: NepaliDateObject
-  disabledDates?: NepaliDateObject[]
+  disabledDates?: NepaliDateObject[] | string[] // Updated to accept string[] format
   disabledDays?: number[] // 0 = Sunday, 6 = Saturday
   maxDaysCount?: number
   triggerButtonText?: string
