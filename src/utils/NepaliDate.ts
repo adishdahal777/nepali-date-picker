@@ -7,12 +7,12 @@ export class NepaliDate {
   private _day: number
 
   // Minimum and maximum dates supported
-  private static readonly MIN_YEAR = 2070 // 2070 BS
+  private static readonly MIN_YEAR = 2000 // 2070 BS
   private static readonly MAX_YEAR = 2090 // 2090 BS
 
   // Reference date: 1st Baisakh 2000 BS = 13th April 1943 AD
   private static readonly REF_NEPALI_DATE = { year: 2000, month: 0, day: 1 }
-  private static readonly REF_GREGORIAN_DATE = new Date(1943, 3, 13) // Month is 0-indexed (3 = April)
+  private static readonly REF_GREGORIAN_DATE = new Date(1943, 3, 14) // Month is 0-indexed (3 = April)
 
   constructor(year: number, month: number, day: number) {
     // Get a valid year before validation
@@ -166,11 +166,15 @@ export class NepaliDate {
   // Convert Gregorian date to Nepali date
   private static convertToNepali(gregorianDate: GregorianDateObject): NepaliDateObject {
     // Create a date object for the input Gregorian date
-    const inputGregorianDate = new Date(gregorianDate.year, gregorianDate.month, gregorianDate.day)
+    const inputGregorianDate = new Date(Date.UTC(gregorianDate.year, gregorianDate.month, gregorianDate.day))
+    const refDate = new Date(Date.UTC(
+      this.REF_GREGORIAN_DATE.getFullYear(),
+      this.REF_GREGORIAN_DATE.getMonth(),
+      this.REF_GREGORIAN_DATE.getDate()
+    ))
+    const timeDiff = inputGregorianDate.getTime() - refDate.getTime()
+    const totalDaysElapsed = Math.round(timeDiff / (1000 * 3600 * 24))
 
-    // Calculate days elapsed from reference date
-    const timeDiff = inputGregorianDate.getTime() - this.REF_GREGORIAN_DATE.getTime()
-    const totalDaysElapsed = Math.floor(timeDiff / (1000 * 3600 * 24))
 
     // Find the corresponding Nepali date
     let nepaliYear = this.REF_NEPALI_DATE.year
@@ -184,14 +188,18 @@ export class NepaliDate {
       if (!calendarData[nepaliYear]) {
         // If we've exceeded available data, use the latest available year
         if (nepaliYear > this.MAX_YEAR) {
-          console.warn(`Calendar data not available for year ${nepaliYear}. Using data from year ${this.MAX_YEAR} instead.`)
+          console.warn(
+            `Calendar data not available for year ${nepaliYear}. Using data from year ${this.MAX_YEAR} instead.`,
+          )
           // Use the latest available year's data
           nepaliYear = this.MAX_YEAR
           nepaliMonth = 0
           nepaliDay = 1
           break
         } else if (nepaliYear < this.MIN_YEAR) {
-          console.warn(`Calendar data not available for year ${nepaliYear}. Using data from year ${this.MIN_YEAR} instead.`)
+          console.warn(
+            `Calendar data not available for year ${nepaliYear}. Using data from year ${this.MIN_YEAR} instead.`,
+          )
           // Use the earliest available year's data
           nepaliYear = this.MIN_YEAR
           nepaliMonth = 0
@@ -222,7 +230,9 @@ export class NepaliDate {
 
           // Check if we're about to exceed available data
           if (nepaliYear > this.MAX_YEAR) {
-            console.warn(`Calendar data not available for year ${nepaliYear}. Using data from year ${this.MAX_YEAR} instead.`)
+            console.warn(
+              `Calendar data not available for year ${nepaliYear}. Using data from year ${this.MAX_YEAR} instead.`,
+            )
             nepaliYear = this.MAX_YEAR
             break
           }
