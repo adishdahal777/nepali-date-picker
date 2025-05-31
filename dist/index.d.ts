@@ -8,6 +8,10 @@ interface NepaliDateObject {
     month: number;
     day: number;
 }
+interface DateRange$1 {
+    start: NepaliDateObject;
+    end: NepaliDateObject;
+}
 interface DatePickerOptions {
     theme?: "light" | "dark";
     primaryColor?: string;
@@ -27,6 +31,7 @@ interface DatePickerOptions {
     maxDaysCount?: number;
     triggerButtonText?: string;
     showTriggerButton?: boolean;
+    onRangeSelect?: (range: DateRange$1) => void;
     onChange?: (date: NepaliDateObject) => void;
     onDateSelect?: (date: NepaliDateObject) => void;
     onMonthChange?: (year: number, month: number) => void;
@@ -79,6 +84,82 @@ declare class NepaliDatePicker {
     destroy(): void;
 }
 
+interface DateRange {
+    start: NepaliDateObject;
+    end: NepaliDateObject;
+}
+interface DateRangePickerOptions {
+    theme?: "light" | "dark";
+    primaryColor?: string;
+    language?: "ne" | "en";
+    showTodayButton?: boolean;
+    closeOnSelect?: boolean;
+    disableFutureDates?: boolean;
+    disablePastDates?: boolean;
+    dateFormat?: string;
+    unicodeDate?: boolean;
+    readOnly?: boolean;
+    initialDateRange?: DateRange;
+    minDate?: NepaliDateObject;
+    maxDate?: NepaliDateObject;
+    disabledDates?: NepaliDateObject[] | string[];
+    disabledDays?: number[];
+    maxDaysCount?: number;
+    triggerButtonText?: string;
+    showTriggerButton?: boolean;
+    showPresets?: boolean;
+    onRangeSelect?: (range: DateRange) => void;
+    onChange?: (range: DateRange) => void;
+    onOpen?: () => void;
+    onClose?: () => void;
+}
+
+declare class NepaliDateRangePicker {
+    private element;
+    private options;
+    private selectedRange;
+    private currentViewDate;
+    private nextViewDate;
+    private isOpen;
+    private pickerElement;
+    private inputElement;
+    private tempSelectedRange;
+    private selectionState;
+    private static readonly DEFAULT_OPTIONS;
+    private presets;
+    constructor(selector: string | HTMLElement, options?: DateRangePickerOptions);
+    private init;
+    private applyCustomColor;
+    private hexToRgba;
+    private adjustColor;
+    private formatSelectedDateRange;
+    private getNextMonthDate;
+    private createPickerElement;
+    private updatePickerContent;
+    private generatePresetOptions;
+    private getActivePresetIndex;
+    private generateDaysGrid;
+    private isSameDate;
+    private isDateInRange;
+    private convertToNepaliNumeral;
+    private isDateDisabled;
+    private parseDateString;
+    private positionPicker;
+    private addPickerEventListeners;
+    private applyPreset;
+    private handleDayClick;
+    private toggle;
+    private open;
+    private close;
+    private handleOutsideClick;
+    getDateRange(): DateRange;
+    setDateRange(range: DateRange): void;
+    setOptions(options: Partial<DateRangePickerOptions>): void;
+    show(): void;
+    hide(): void;
+    destroy(): void;
+}
+
 declare class NepaliDate {
     private _year;
     private _month;
@@ -109,4 +190,4 @@ declare class NepaliDate {
     private hexToRgba;
 }
 
-export { DatePickerOptions, GregorianDateObject, NepaliDate, NepaliDateObject, NepaliDatePicker };
+export { DatePickerOptions, DateRange, DateRangePickerOptions, GregorianDateObject, NepaliDate, NepaliDateObject, NepaliDatePicker, NepaliDateRangePicker };

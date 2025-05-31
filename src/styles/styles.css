@@ -317,12 +317,6 @@
   cursor: default;
 }
 
-/* Remove the red color for weekend days by modifying the .weekend class */
-.weekend {
-  /* color: #e53e3e; */
-  /* This line is removed or commented out */
-}
-
 .footer {
   display: flex;
   justify-content: space-between;

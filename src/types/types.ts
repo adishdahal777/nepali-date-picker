@@ -38,6 +38,7 @@ export interface DatePickerOptions {
   maxDaysCount?: number
   triggerButtonText?: string
   showTriggerButton?: boolean
+  onRangeSelect?: (range: DateRange) => void // Callback for range selection
   onChange?: (date: NepaliDateObject) => void
   onDateSelect?: (date: NepaliDateObject) => void
   onMonthChange?: (year: number, month: number) => void
