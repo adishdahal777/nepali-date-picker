@@ -24,7 +24,7 @@
     "calendar",
     "nepal"
   ],
-  "author": "Your Name",
+  "author": "Adish Dahal",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.22.5",
